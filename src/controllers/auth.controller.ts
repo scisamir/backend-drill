@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+import { registerUser } from "../services/auth.service.js";
 
 export const registerController = (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -7,8 +8,7 @@ export const registerController = (req: Request, res: Response) => {
     return res.status(400).json({ error: "Email and password are required" });
   }
 
-  res.json({
-    message: "User registered successfully",
-    user: { email },
-  });
+  const result = registerUser(email);
+
+  res.json(result);
 };
