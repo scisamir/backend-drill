@@ -1,5 +1,9 @@
 import type { Request, Response } from "express";
-import { getUsers, registerUser } from "../services/auth.service.js";
+import {
+  getUserById,
+  getUsers,
+  registerUser,
+} from "../services/auth.service.js";
 
 export const registerController = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -24,5 +28,22 @@ export const getUsersController = async (_req: Request, res: Response) => {
     res.json(result);
   } catch (_error) {
     res.status(500).json({ error: "Failed to fetch users" });
+  }
+};
+
+export const getUserByIdController = async (
+  req: Request<{ id: string }>,
+  res: Response,
+) => {
+  try {
+    const result = await getUserById(req.params.id);
+
+    if (!result) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(result);
+  } catch (_error) {
+    res.status(500).json({ error: "Failed to fetch user" });
   }
 };

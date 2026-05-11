@@ -14,3 +14,11 @@ export const getUsers = async () => {
 
   return result.rows;
 };
+
+export const getUserById = async (id: string) => {
+  const result = await pool.query("SELECT id, email FROM users WHERE id = $1", [
+    Number(id),
+  ]);
+
+  return result.rows[0];
+};
