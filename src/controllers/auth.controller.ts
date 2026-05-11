@@ -3,6 +3,7 @@ import {
   getUserById,
   getUsers,
   registerUser,
+  updateUserEmail,
 } from "../services/auth.service.js";
 
 export const registerController = async (req: Request, res: Response) => {
@@ -45,5 +46,26 @@ export const getUserByIdController = async (
     res.json(result);
   } catch (_error) {
     res.status(500).json({ error: "Failed to fetch user" });
+  }
+};
+
+export const updateUserController = async (
+  req: Request<{ id: string }>,
+  res: Response,
+) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  try {
+    const result = await updateUserEmail(req.params.id, email);
+    if (!result) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(result);
+  } catch (_error) {
+    res.status(500).json({ error: "Failed to update user" });
   }
 };

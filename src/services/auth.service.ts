@@ -22,3 +22,12 @@ export const getUserById = async (id: string) => {
 
   return result.rows[0];
 };
+
+export const updateUserEmail = async (id: string, email: string) => {
+  const result = await pool.query(
+    "UPDATE users SET email = $1 WHERE id = $2 RETURNING id, email",
+    [email, Number(id)],
+  );
+
+  return result.rows[0];
+};
