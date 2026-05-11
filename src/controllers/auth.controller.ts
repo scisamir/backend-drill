@@ -8,7 +8,11 @@ export const registerController = async (req: Request, res: Response) => {
     return res.status(400).json({ error: "Email and password are required" });
   }
 
-  const result = await registerUser(email);
+  try {
+    const result = await registerUser(email, password);
 
-  res.json(result);
+    res.json(result);
+  } catch {
+    res.status(409).json({ error: "User already exists" });
+  }
 };
