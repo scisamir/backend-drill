@@ -8,3 +8,9 @@ export const registerUser = async (email: string, password: string) => {
 
   return result.rows[0];
 };
+
+export const getUsers = async () => {
+  const result = await pool.query("SELECT id, email FROM users");
+
+  return result.rows;
+};
