@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import {
+  deleteUser,
   getUserById,
   getUsers,
   registerUser,
@@ -67,5 +68,22 @@ export const updateUserController = async (
     res.json(result);
   } catch (_error) {
     res.status(500).json({ error: "Failed to update user" });
+  }
+};
+
+export const deleteUserController = async (
+  req: Request<{ id: string }>,
+  res: Response,
+) => {
+  try {
+    const result = await deleteUser(req.params.id);
+
+    if (!result) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(204).send();
+  } catch (_error) {
+    res.status(500).json({ error: "Failed to delete user" });
   }
 };

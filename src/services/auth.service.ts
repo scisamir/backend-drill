@@ -31,3 +31,12 @@ export const updateUserEmail = async (id: string, email: string) => {
 
   return result.rows[0];
 };
+
+export const deleteUser = async (id: string) => {
+  const result = await pool.query(
+    "DELETE FROM users WHERE id = $1 RETURNING id, email",
+    [Number(id)],
+  );
+
+  return result.rows[0];
+};

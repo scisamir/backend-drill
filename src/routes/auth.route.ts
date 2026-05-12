@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  deleteUserController,
   getUserByIdController,
   getUsersController,
   registerController,
@@ -11,3 +12,4 @@ authRoutes.post("/register", registerController);
 authRoutes.get("/users", getUsersController);
 authRoutes.get("/users/:id", getUserByIdController);
 authRoutes.patch("/users/:id", updateUserController);
+authRoutes.delete("/users/:id", deleteUserController);
