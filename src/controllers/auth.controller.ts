@@ -3,6 +3,7 @@ import {
   deleteUser,
   getUserById,
   getUsers,
+  loginUser,
   registerUser,
   updateUserEmail,
 } from "../services/auth.service.js";
@@ -85,5 +86,24 @@ export const deleteUserController = async (
     return res.status(204).send();
   } catch (_error) {
     res.status(500).json({ error: "Failed to delete user" });
+  }
+};
+
+export const loginController = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required" });
+  }
+
+  try {
+    const result = await loginUser(email, password);
+    if (!result) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    res.json({ message: "Login successful", user: result });
+  } catch (_error) {
+    res.status(500).json({ error: "Failed to login user" });
   }
 };
